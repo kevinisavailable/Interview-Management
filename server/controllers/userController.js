@@ -2,7 +2,9 @@ const asyncHandler = require('express-async-handler')
 const UserModel = require('../models/userModel')
 const jwt =  require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-
+const crypto  =  require('crypto')
+const Token = require('../models/tokenModel')
+const sendEmail = require('../utils/sendEmail')
 
 const generateToken = (id) => { 
     return jwt.sign({id} , process.env.JWT_SECRET , {expiresIn : "1d"})
@@ -206,7 +208,48 @@ const updatePassword = asyncHandler(async(req,res)=>{
 })
 
 const forgotPassword = asyncHandler(async(req,res)=>{
-    res.json("Hello its me")
+    const email = req.body.email
+    if(!email){
+        res.status(400)
+        throw new Error("Email field is required")
+    }
+    const user = await UserModel.findOne({email})
+    if(!user){
+        res.status(400)
+        throw new Error("User does not exist")
+    }
+
+    let resetToken = crypto.randomBytes(32).toString("hex")  + user._id
+    
+    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+    
+    await new Token({
+        userId: user._id,
+        token:hashedToken,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + (60*1000)*30 
+    }).save()
+
+    const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`
+    const resetEmail = ``
+    const message = 
+    `
+    <h2>Hello ${user.name}</h2>
+    <p>Click on the link below to reset your password</p>
+    <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+    <p>Thank you</p>
+    `
+    const subject = "Password Reset Link"
+    const send_to = user.email
+    const send_from = process.env.EMAIL_USER
+    try{
+        await sendEmail(subject , message ,send_to , send_from)
+        res.status(200).json({success: true , message:"Reset Email Sent"})
+    }
+    catch{  
+        res.status(500)
+        throw new Error("Email Not Sent")
+    }
 })
 module.exports = {
     registerUser, loginUser ,logoutUser , getUser , loginStatus,updateUser,updatePassword,forgotPassword
