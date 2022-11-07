@@ -86,7 +86,7 @@ const loginUser = asyncHandler( async(req,res)=>{
         httpOnly: true,
         expires:new Date(Date.now() + 1000* 86400),
         sameSite:"none",
-        secure:true
+        secure:false
     })
 
     if(user && passwordIsCorrect){
@@ -112,13 +112,30 @@ const logoutUser = asyncHandler( async(req,res)=>{
         httpOnly: true,
         expires:new Date(0),
         sameSite:"none",
-        secure:true
+        secure:false
     })
     return res.status(200).json({
         message:"User successfully logged Out"
     })
 })
 
+const getUser = asyncHandler(async(req,res)=>{
+    const user = await UserModel.findById(req.user._id)
+    if(user){
+    res.status(200).json({
+        _id : user._id,
+        name: user.name,
+        email:user.email,
+        cv: user.cv,
+        phoneNo:user.phoneNo,
+        description: user.description,
+    })
+    }
+    else{
+        res.status(400)
+        throw new Error("User not Found")
+    }
+})
 module.exports = {
-    registerUser, loginUser ,logoutUser
+    registerUser, loginUser ,logoutUser , getUser
 }
