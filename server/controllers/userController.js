@@ -20,13 +20,12 @@ const registerUser = asyncHandler( async(req,res)=>{
         throw new Error("Email has already been used.")
     }
 
-    const salt =  await bcrypt.genSalt(10)
-    const hashedPassword =  await bcrypt.hash(password , salt)
+    
 
     const user = await UserModel.create({
         name:name ,
         email: email ,
-        password: hashedPassword,
+        password: password,
     })
     if(user){
         // const {id , name ,email , CV , bio } = user
