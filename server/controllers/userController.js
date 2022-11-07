@@ -204,6 +204,10 @@ const updatePassword = asyncHandler(async(req,res)=>{
     }
 
 })
+
+const forgotPassword = asyncHandler(async(req,res)=>{
+    res.json("Hello its me")
+})
 module.exports = {
-    registerUser, loginUser ,logoutUser , getUser , loginStatus,updateUser,updatePassword
+    registerUser, loginUser ,logoutUser , getUser , loginStatus,updateUser,updatePassword,forgotPassword
 }
