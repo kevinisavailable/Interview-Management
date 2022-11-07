@@ -153,6 +153,31 @@ const loginStatus = asyncHandler(async(req,res)=>{
         }
     }
 })
+
+const updateUser = asyncHandler(async(req,res)=>{
+    const user = await UserModel.findById(req.user._id)
+    if(user){
+        user.email = user.email
+        user.name = req.body.name || user.name
+        user.phoneNo = req.body.phoneNo || user.phoneNo
+        user.cv = req.body.cv || user.cv
+        user.description = req.body.description || user.description
+        
+        const updatedUser = await user.save()
+        res.status(200).json({
+        _id : updatedUser._id,
+        name: updatedUser.name,
+        email:updatedUser.email,
+        cv: updatedUser.cv,
+        phoneNo:updatedUser.phoneNo,
+        description: updatedUser.description,
+        })
+    }
+    else{
+        res.status(400)
+        throw new Error("User not Found")
+    }
+})
 module.exports = {
-    registerUser, loginUser ,logoutUser , getUser , loginStatus
+    registerUser, loginUser ,logoutUser , getUser , loginStatus,updateUser
 }
