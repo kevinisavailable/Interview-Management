@@ -1,4 +1,5 @@
 const express = require('express')
+const app = express()
 const  mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const PORT = process.env.PORT || 3000
@@ -6,13 +7,14 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const userRoutes = require('./routes/userRoutes')
 const errorHandler = require('./middleware/errorMiddleware')
-const app = express()
+const cookieParser = require('cookie-parser')
 dotenv.config()
 
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded({extended:false}))
 app.use(bodyParser.json())
-
+app.use(cors())
 app.use('/api/users' , userRoutes)
 
 
