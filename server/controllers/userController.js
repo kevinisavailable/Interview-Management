@@ -178,6 +178,32 @@ const updateUser = asyncHandler(async(req,res)=>{
         throw new Error("User not Found")
     }
 })
+
+const updatePassword = asyncHandler(async(req,res)=>{
+    const user = await UserModel.findById(req.user._id)
+    const{oldpassword , newpassword} = req.body
+    if(!user){
+        res.status(400)
+        throw new Error("User not Found")
+    }
+
+    if(!oldpassword || !newpassword){
+        res.status(404)
+        throw new Error("Fill both fields")
+    }
+
+    const passwordIsCorrect = await bcrypt.compare(oldpassword , user.password)
+    if(user && passwordIsCorrect){
+        user.password = newpassword
+        await user.save()
+        res.status(200).send("Password Updated")
+    }
+    else{
+        res.status(400)
+        throw new Error("Old Password is Incorrect")
+    }
+
+})
 module.exports = {
-    registerUser, loginUser ,logoutUser , getUser , loginStatus,updateUser
+    registerUser, loginUser ,logoutUser , getUser , loginStatus,updateUser,updatePassword
 }
