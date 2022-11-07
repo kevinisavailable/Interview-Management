@@ -5,7 +5,6 @@ const asyncHandler = require('express-async-handler')
 const protect = asyncHandler(async(req,res , next)=>{
     try{
        const token = await req.cookies.token
-       console.log(req.cookies)
        if(!token){
         res.status(401)
         throw new Error("Not Authorized , Please Login")
