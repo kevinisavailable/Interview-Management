@@ -13,16 +13,18 @@ const userSchema = new mongoose.Schema({
         match:[
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             "Please enter a valid email"
-        ],
+        ]
+    },
     password:{
         type:String , 
         required:[true, "Please add a password"],
         minLenght: [6 , "Enter a password with more than 6 characters"],
         maxLenght: [20 , "Please limit your password to less than 20 characters"],
     },
-    CV :{
+    cv :{
         type:String , 
-        required:[true, "Please add a CV"]
+        required:[true, "Please add a CV"],
+        default:"No CV attached"
     },
     phoneNo:{
         type:String , 
@@ -34,7 +36,7 @@ const userSchema = new mongoose.Schema({
         maxLength:[250 , "Please limit your reason to 250 characters"]
     }
     }
-},{
+,{
     timestamps : true
 })
 
