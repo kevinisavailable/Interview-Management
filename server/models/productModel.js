@@ -12,6 +12,7 @@ const productSchema  =new mongoose.Schema({
         trim:true
     },
     sku:{
+        type:String,
         required:true,
         default:"SKU",
         trim:true
