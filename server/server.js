@@ -9,6 +9,7 @@ const userRoutes = require('./routes/userRoutes')
 const productRoutes = require('./routes/productRoutes')
 const errorHandler = require('./middleware/errorMiddleware')
 const cookieParser = require('cookie-parser')
+const path = require('path')
 dotenv.config()
 
 app.use(express.json())
@@ -16,11 +17,12 @@ app.use(cookieParser())
 app.use(express.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(cors())
+app.use('/uploads' , express.static(path.join(__dirname,"uploads")))
+
+
 app.use('/api/users' , userRoutes)
 app.use('/api/products' , productRoutes)
-
-
-app.get('/' , (req,res)=>{res.send("Homepage") })
+app.get('/', (req,res)=>{res.send("Homepage") })
 
 mongoose.connect(process.env.MONGODB_URI)
 .then(()=>{console.log("Database Connection established")})
