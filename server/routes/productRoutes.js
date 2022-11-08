@@ -8,6 +8,6 @@ router.post('/create' , protect, upload.single("image"), createProduct)
 router.get('/allproducts' ,protect ,  getAllProducts)
 router.get('/product/:id' ,protect ,  getSingleProduct)
 router.delete('/deleteproduct/:id' , protect , deleteProduct)
-router.patch('/updateproduct/:id' , protect , updateProduct)
+router.patch('/updateproduct/:id' , protect ,upload.single("image"), updateProduct)
 
 module.exports = router

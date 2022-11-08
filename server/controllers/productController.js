@@ -90,16 +90,59 @@ const deleteProduct = AsyncHandler(async(req,res)=>{
 })
 
 const updateProduct = AsyncHandler(async(req,res)=>{
+    
+    const {name, category , quantity , price , description}  = req.body  
     const product = await Product.findById(req.params.id)
-    if(!product){
-        res.status(404)
-        throw new Error("Product Not Found")
-    }
 
+    if(!product){
+        res.status(400)
+        throw new Error("Product not Found")
+    }
+    
     if(product.user.toString() !== req.user.id){
         res.status(401)
         throw new Error("User not authorized")
     }
+    
+    let fileData = {}
+
+    if(req.file){
+        let uploadedFile
+        try{
+            uploadedFile = await cloudinary.uploader.upload(req.file.path , {folder:"Interview Management" , resource_type:"raw"})
+        }
+        catch(error){
+            res.status(500)
+            throw new Error("File could not be uploaded")
+        }
+
+        fileData = {
+            fileName : req.file.originalname,
+            filePath : uploadedFile.secure_url,
+            fileType : req.file.mimetype,
+            fileSize : fileSizeFormatter(req.file.size , 2)
+        }
+    }
+    const updatedProduct = await Product.findByIdAndUpdate(
+        {
+        _id:req.params.id
+        },
+        {
+        name: name,
+        category: category,
+        price :price,
+        quantity:quantity,
+        description:description,
+        image :  Object.keys(fileData).length === 0 ? product?.image : fileData
+        },
+        {
+        new : true , 
+        runValidators : true
+        })
+
+    res.status(200).json({
+        updatedProduct
+    })
 })
 module.exports ={
     createProduct , getAllProducts,getSingleProduct , deleteProduct,updateProduct
