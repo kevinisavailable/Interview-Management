@@ -69,8 +69,38 @@ const getSingleProduct = AsyncHandler(async(req,res)=>{
     }
 
     res.status(200).json(product)
+})
 
+const deleteProduct = AsyncHandler(async(req,res)=>{
+    const product = await Product.findById(req.params.id)
+    if(!product){
+        res.status(404)
+        throw new Error("Product Not Found")
+    }
+
+    if(product.user.toString() !== req.user.id){
+        res.status(401)
+        throw new Error("User not authorized")
+    }
+
+    await product.remove()
+    res.status(200).json({
+        message:"Product deleted."
+    })
+})
+
+const updateProduct = AsyncHandler(async(req,res)=>{
+    const product = await Product.findById(req.params.id)
+    if(!product){
+        res.status(404)
+        throw new Error("Product Not Found")
+    }
+
+    if(product.user.toString() !== req.user.id){
+        res.status(401)
+        throw new Error("User not authorized")
+    }
 })
 module.exports ={
-    createProduct , getAllProducts,getSingleProduct
+    createProduct , getAllProducts,getSingleProduct , deleteProduct,updateProduct
 }
