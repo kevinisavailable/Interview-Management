@@ -13,11 +13,11 @@ const Reset = () => {
 
     <div class="form-floating my-2">
       <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required/>
-      <label for="floatingPassword">Password</label>
+      <label for="floatingPassword">New Password</label>
     </div>
     <div class="form-floating my-2">
       <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required/>
-      <label for="floatingPassword">Confirm Password</label>
+      <label for="floatingPassword">Confirm New Password</label>
     </div>
     <div className='text-center'>
     <button class="w-50 btn btn-md btn-primary text-center" type="submit">Reset Password</button>
