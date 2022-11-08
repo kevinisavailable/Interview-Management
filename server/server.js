@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const userRoutes = require('./routes/userRoutes')
+const productRoutes = require('./routes/productRoutes')
 const errorHandler = require('./middleware/errorMiddleware')
 const cookieParser = require('cookie-parser')
 dotenv.config()
@@ -16,6 +17,7 @@ app.use(express.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(cors())
 app.use('/api/users' , userRoutes)
+app.use('/api/products' , productRoutes)
 
 
 app.get('/' , (req,res)=>{res.send("Homepage") })
