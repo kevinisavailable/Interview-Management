@@ -1,6 +1,13 @@
 const AsyncHandler = require('express-async-handler')
 const Product = require('../models/productModel')
 const { fileSizeFormatter } = require('../utils/fileUpload')
+const cloudinary = require('cloudinary').v2
+
+cloudinary.config({ 
+    cloud_name: 'djrs0ka4f', 
+    api_key: '532312434813529', 
+    api_secret: 'v_9JCqNRwDg1a4bz-Zh42uC3g4k' 
+  });
 
 const createProduct = AsyncHandler(async(req,res)=>{
     const {name, sku, category , quantity , price , description}  = req.body  
@@ -11,9 +18,19 @@ const createProduct = AsyncHandler(async(req,res)=>{
 
     let fileData = {}
     if(req.file){
+
+        let uploadedFile
+        try{
+            uploadedFile = await cloudinary.uploader.upload(req.file.path , {folder:"Interview Management" , resource_type:"raw"})
+        }
+        catch(error){
+            res.status(500)
+            throw new Error("File could not be uploaded")
+        }
+
         fileData = {
             fileName : req.file.originalname,
-            filePath : req.file.path,
+            filePath : uploadedFile.secure_url,
             fileType : req.file.mimetype,
             fileSize : fileSizeFormatter(req.file.size , 2)
         }
