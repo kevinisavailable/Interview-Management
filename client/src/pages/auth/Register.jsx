@@ -1,29 +1,79 @@
 import Card from '../../components/Card'
 import {Link} from 'react-router-dom'
+import { useState } from 'react'
+import toast from 'react-hot-toast';
+import { validateEmail } from '../../services/authService';
+import {registerUser} from '../../services/authService'
+
+const initialState = {
+  name:"",
+  email:"",
+  password:"",
+  passwordCheck:""
+}
+
+
+
 
 const Register = () => {
+  const[isLoading , setIsLoading] = useState(false)
+  const[formData , setFormData] = useState(initialState)
+  const {name , email , password , passwordCheck} = formData
+  const handleInputChange = (e)=>{
+    const {name , value} = e.target
+    setFormData({
+      ...formData, [name]: value
+    })
+  }
+
+  const register = async(e)=>{
+    e.preventDefault()
+    if(!name || !email ||!password)
+    return toast.error("All fields are required")
+    if(password.length < 6)
+    return toast.error("Password must be grater than 6 characters")
+    if(password !== passwordCheck)
+    return toast.error("Password don't match")
+    if(!validateEmail(email)){
+      return toast.error("Please enter a valid email")
+    }
+
+    const userData = {
+      name , email , password
+    }
+    setIsLoading(true)
+    try{
+      const data = await registerUser(userData)
+      console.log(data)
+      setIsLoading(false)
+    }
+    catch(error){
+      setIsLoading(false)
+      console.log(error.message)
+    }
+  }
   return (
     <div className='container justify-content-center align-items-center w-25 mt-5'>
     <Card>
     <main class="form-signin">
-  <form>
+  <form onSubmit={register}>
     
     <h1 class="h3 mb-3 fw-normal text-center">Register</h1>
 
     <div class="form-floating my-2">
-      <input type="text" class="form-control" id="floatingInput" placeholder="name" required/>
+      <input type="text" class="form-control" id="floatingInput" placeholder="name" name="name" onChange={handleInputChange} value={name} required/>
       <label for="floatingInput">Name</label>
     </div>
     <div class="form-floating my-2">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required/>
+      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" onChange={handleInputChange} value={email} required/>
       <label for="floatingInput">Email address</label>
     </div>
     <div class="form-floating my-2">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required/>
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" onChange={handleInputChange} value={password} required/>
       <label for="floatingPassword">Password</label>
     </div>
     <div class="form-floating my-2">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required/>
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="passwordCheck" onChange={handleInputChange} value={passwordCheck} required/>
       <label for="floatingPassword">Confirm Password</label>
     </div>
     <div className='text-center'>
