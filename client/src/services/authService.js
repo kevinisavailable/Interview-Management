@@ -9,7 +9,7 @@ export const registerUser =async(userData)=>{
         if(response.statusText === "OK"){
         toast.success(response.data.message)
         }
-        console.log(response)
+        return(response)
     }   
     catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()

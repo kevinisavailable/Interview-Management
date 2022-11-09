@@ -1,10 +1,11 @@
 import Card from '../../components/Card'
-import {Link} from 'react-router-dom'
+import {Link , useNavigate} from 'react-router-dom'
 import { useState } from 'react'
 import toast from 'react-hot-toast';
-import { validateEmail } from '../../services/authService';
+import { validateEmail } from '../../services/authService'
 import {registerUser} from '../../services/authService'
-
+import {useDispatch} from 'react-redux'
+import { SET_LOGIN , SET_NAME } from '../../redux/features/auth/authSlice'
 const initialState = {
   name:"",
   email:"",
@@ -16,6 +17,8 @@ const initialState = {
 
 
 const Register = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const[isLoading , setIsLoading] = useState(false)
   const[formData , setFormData] = useState(initialState)
   const {name , email , password , passwordCheck} = formData
@@ -44,7 +47,10 @@ const Register = () => {
     setIsLoading(true)
     try{
       const data = await registerUser(userData)
-      console.log(data)
+      // console.log(data)
+      await dispatch(SET_LOGIN(true))
+      await dispatch(SET_NAME(data.name))
+      navigate('/dashboard')
       setIsLoading(false)
     }
     catch(error){
