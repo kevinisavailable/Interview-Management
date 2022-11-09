@@ -23,6 +23,7 @@ const Login = () => {
     setFormData({
       ...formData, [name]: value
     })
+
   }
 
   const login = async(e)=>{
@@ -35,6 +36,7 @@ const Login = () => {
     const userData = {
        email , password
     }
+    console.log(userData)
     setIsLoading(true)
     try{
       const data = await LoginUser(userData)

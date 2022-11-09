@@ -1,6 +1,18 @@
-import {Link} from 'react-router-dom'
+import {Link , useNavigate} from 'react-router-dom'
+import { selectName, SET_LOGIN, SET_NAME } from '../../redux/features/auth/authSlice';
+import { LogoutUser } from '../../services/authService';
+import {useDispatch , useSelector} from 'react-redux'
 
 const Header = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const name = useSelector(selectName)
+  const logout = async()=>{
+    await LogoutUser
+    await dispatch(SET_LOGIN(false))
+    navigate('/login')
+  }
+
   return (
     <>
   <header id="header" className="header fixed-top d-flex align-items-center">
@@ -22,6 +34,10 @@ const Header = () => {
         <button type="submit" title="Search"><i className="bi bi-search"></i></button>
       </form>
     </div> */}
+
+      <a className="logo d-flex align-items-center">
+        <span className="d-none d-lg-block">Welcome, {name} </span>
+      </a>
 
     <nav className="header-nav ms-auto">
       <ul className="d-flex align-items-center">
@@ -60,10 +76,10 @@ const Header = () => {
             </li>
 
             <li>
-              <a className="dropdown-item d-flex align-items-center" href="#">
+              <button className="dropdown-item d-flex align-items-center" onClick={logout}>
                 <i className="bi bi-box-arrow-right"></i>
                 <span>Log Out</span>
-              </a>
+              </button>
             </li>
 
           </ul>
