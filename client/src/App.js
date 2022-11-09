@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { getLoginStatus } from './services/authService';
 import { selectIsLoggedIn, SET_LOGIN } from './redux/features/auth/authSlice';
 import AddProduct from './pages/AddProduct/AddProduct';
+import Dashboard from './pages/Dashboard';
 axios.defaults.withCredentials = true
 
 function App() {
@@ -37,7 +38,7 @@ useEffect(() => {
       <Route path='/forgotpassword' element={<Forgot />}/>
       <Route path='/resetpassword/:resetToken' element={<Reset />}/>
       <Route path='/add-product' element={<AddProduct/>} />
-      <Route path='/dashboard' element={<AddProduct/>} />
+      <Route path='/dashboard' element={<Dashboard/>} />
     </Routes>
     </BrowserRouter>
   );
