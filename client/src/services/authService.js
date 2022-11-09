@@ -1,6 +1,5 @@
 import axios from 'axios'
 import toast from 'react-hot-toast';
-
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 export const registerUser =async(userData)=>{
@@ -28,6 +27,7 @@ export const LoginUser =async(userData)=>{
         const response = await axios.post(`${BACKEND_URL}/api/users/login`, userData)
         if(response.statusText === "OK"){
         toast.success("Login Successful")
+        
         }
         // console.log(response)
         return(response)
@@ -44,6 +44,7 @@ export const LogoutUser =async()=>{
     try{
         const response = await axios.get(`${BACKEND_URL}/api/users/logout`)
         toast.success("Logout Successful")
+        return(response.data.message)
     }   
     catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
@@ -78,7 +79,6 @@ export const ResetPassword =async(userData , resetToken)=>{
     catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         toast.error(message)
-        
     }
 }
 

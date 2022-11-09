@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { LoginUser, validateEmail } from '../../services/authService'
 import toast from 'react-hot-toast';
 import {useDispatch} from 'react-redux'
-import { SET_LOGIN, SET_NAME } from '../../redux/features/auth/authSlice';
+import { SET_LOGIN, SET_NAME} from '../../redux/features/auth/authSlice';
 
 const initialState = {
   email:"",
@@ -36,12 +36,12 @@ const Login = () => {
     const userData = {
        email , password
     }
-    console.log(userData)
     setIsLoading(true)
     try{
       const data = await LoginUser(userData)
       setIsLoading(false)
       await dispatch(SET_LOGIN(true))
+      console.log()
       await dispatch(SET_NAME(data.data.name))
       navigate('/dashboard')
     }
@@ -54,21 +54,21 @@ const Login = () => {
   return (
     <div className='container justify-content-center align-items-center w-25 mt-5'>
     <Card>
-    <main class="form-signin">
+    <main className="form-signin">
   <form onSubmit={login}>
     
-    <h1 class="h3 mb-3 fw-normal text-center">Login</h1>
+    <h1 className="h3 mb-3 fw-normal text-center">Login</h1>
 
-    <div class="form-floating my-2">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" onChange={handleInputChange} value={email}  required/>
-      <label for="floatingInput">Email address</label>
+    <div className="form-floating my-2">
+      <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" name="email" onChange={handleInputChange} value={email}  required/>
+      <label >Email address</label>
     </div>
-    <div class="form-floating my-2">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" onChange={handleInputChange} value={password}  required/>
-      <label for="floatingPassword">Password</label>
+    <div className="form-floating my-2">
+      <input type="password" className="form-control" id="floatingPassword" placeholder="Password" name="password" onChange={handleInputChange} value={password}  required/>
+      <label >Password</label>
     </div>
     <div className='text-center'>
-    <button class="w-50 btn btn-md btn-primary text-center" type="submit">Log in</button>
+    <button className="w-50 btn btn-md btn-primary text-center" type="submit">Log in</button>
     </div>
     <div className='d-flex mx-2 px-2 justify-content-around'>
     <Link to='/forgotpassword' style={{textDecoration:"none"}}>

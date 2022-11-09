@@ -4,10 +4,10 @@ import {Forgot , Login ,Register ,Reset} from './pages/auth/auth'
 import Layout from './components/Layout/Layout';
 import axios from 'axios'
 import { Toaster } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getLoginStatus } from './services/authService';
-import { SET_LOGIN } from './redux/features/auth/authSlice';
+import { selectIsLoggedIn, SET_LOGIN } from './redux/features/auth/authSlice';
 axios.defaults.withCredentials = true
 
 function App() {
@@ -15,6 +15,7 @@ const dispatch = useDispatch()
 useEffect(() => {
   async function loginStatus(){
     const status = await getLoginStatus()
+    console.log(status)
     dispatch(SET_LOGIN(status))
   }
   loginStatus()

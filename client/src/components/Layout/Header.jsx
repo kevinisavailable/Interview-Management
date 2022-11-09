@@ -7,10 +7,16 @@ const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const name = useSelector(selectName)
+  
   const logout = async()=>{
-    await LogoutUser
-    await dispatch(SET_LOGIN(false))
-    navigate('/login')
+    try{
+      await LogoutUser()
+      await dispatch(SET_LOGIN(false))
+      navigate('/login')
+    }
+    catch(error){
+      console.log(error)
+    }
   }
 
   return (
@@ -76,7 +82,7 @@ const Header = () => {
             </li>
 
             <li>
-              <button className="dropdown-item d-flex align-items-center" onClick={logout}>
+              <button className="dropdown-item d-flex align-items-center" onClick={()=>logout()}>
                 <i className="bi bi-box-arrow-right"></i>
                 <span>Log Out</span>
               </button>

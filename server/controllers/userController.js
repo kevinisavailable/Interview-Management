@@ -88,7 +88,7 @@ const loginUser = asyncHandler( async(req,res)=>{
         httpOnly: true,
         expires:new Date(Date.now() + 1000* 86400),
         sameSite:"none",
-        secure:false
+        secure:true
     })
 
     if(user && passwordIsCorrect){
@@ -114,7 +114,7 @@ const logoutUser = asyncHandler( async(req,res)=>{
         httpOnly: true,
         expires:new Date(0),
         sameSite:"none",
-        secure:false
+        secure:true
     })
     return res.status(200).json({
         message:"User successfully logged Out"
@@ -144,14 +144,19 @@ const loginStatus = asyncHandler(async(req,res)=>{
     const token = req.cookies.token
     if(!token){
         res.json(false)
+        console.log("Cookies Not Found");
     }
     else{
         const verified = jwt.verify(token , process.env.JWT_SECRET)
         if(verified){
+        console.log("Should return true")
            return res.json(true)
+           
         }
         else{
+            console.log("Should return false")
             return res.json(false)
+            
         }
     }
 })
