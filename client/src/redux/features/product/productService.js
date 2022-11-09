@@ -7,3 +7,8 @@ export const createProduct = async(formData)=>{
    const response = await axios.post(`${API_URL}/create` , formData)
    return response.data
 }
+
+export const getProductsUser = async(formData)=>{
+   const response = await axios.get(`${API_URL}/allproducts`)
+   return response.data
+}
