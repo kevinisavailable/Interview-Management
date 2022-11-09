@@ -6,6 +6,7 @@ import { validateEmail } from '../../services/authService'
 import {registerUser} from '../../services/authService'
 import {useDispatch} from 'react-redux'
 import { SET_LOGIN , SET_NAME } from '../../redux/features/auth/authSlice'
+import Loader from '../../components/Loader/Loader';
 const initialState = {
   name:"",
   email:"",
@@ -58,6 +59,8 @@ const Register = () => {
     }
   }
   return (
+    <>
+    {/* {isLoading && <Loader />} */}
     <div className='container justify-content-center align-items-center w-25 mt-5'>
     <Card>
     <main class="form-signin">
@@ -98,7 +101,7 @@ const Register = () => {
     </Card>
     
     </div>
-    
+    </>
   )
 }
 
