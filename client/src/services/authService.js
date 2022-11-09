@@ -51,3 +51,20 @@ export const LogoutUser =async()=>{
         
     }
 }
+
+
+export const ForgotPassword =async(userData)=>{
+    try{
+        const response = await axios.post(`${BACKEND_URL}/api/users/forgotpassword`, userData)
+        if(response.statusText === "OK"){
+        toast.success(response.data.message)
+        }
+        console.log(response)
+        return(response)
+    }   
+    catch(error){
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        toast.error(message)
+        
+    }
+}
