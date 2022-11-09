@@ -2,6 +2,7 @@ import Dashboard from "./Dashboard"
 import Header from "./Header"
 import Sidebar from "./Sidebar"
 import userRedirectLogout from '../../customHook/useRedirectLogout'
+import Main from "./Main"
 
 const Layout = ({children}) => {
   userRedirectLogout("/login")
@@ -10,8 +11,8 @@ const Layout = ({children}) => {
     <div>     
     <Header />
     <Sidebar />
-    <Dashboard />
-    {children}
+    {/* <Dashboard /> */}
+    <Main children={children}/>
     </div>
     </>
   )

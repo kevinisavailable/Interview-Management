@@ -10,7 +10,7 @@ const initialState = {
     message:""
 }
 
-const createNewProduct = createAsyncThunk(
+export const createNewProduct = createAsyncThunk(
     "products/create", 
     async(formData , thunkAPI)=>{
         try{
@@ -55,5 +55,5 @@ const productSlice = createSlice({
 });
 
 export const {CALCULATE_STORE_VALUE} = productSlice.actions
-
+export const selectIsLoading = (state) =>state.product.isLoading
 export default productSlice.reducer
