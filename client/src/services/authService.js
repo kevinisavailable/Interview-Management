@@ -68,3 +68,16 @@ export const ForgotPassword =async(userData)=>{
         
     }
 }
+
+
+export const ResetPassword =async(userData , resetToken)=>{
+    try{
+        const response = await axios.put(`${BACKEND_URL}/api/users/resetpassword/${resetToken}`, userData)
+        return(response.data)
+    }   
+    catch(error){
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        toast.error(message)
+        
+    }
+}
