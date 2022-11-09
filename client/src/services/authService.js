@@ -7,7 +7,7 @@ export const registerUser =async(userData)=>{
     try{
         const response = await axios.post(`${BACKEND_URL}/api/users/register`, userData)
         if(response.statusText === "OK"){
-        toast.success(response.data.message)
+        toast.success("Registration Successfull")
         }
         return(response)
     }   
@@ -20,4 +20,21 @@ export const registerUser =async(userData)=>{
 
 export const validateEmail = (email) => { 
     return email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+}
+
+
+export const LoginUser =async(userData)=>{
+    try{
+        const response = await axios.post(`${BACKEND_URL}/api/users/login`, userData)
+        if(response.statusText === "OK"){
+        toast.success("Login Successful")
+        }
+        // console.log(response)
+        return(response)
+    }   
+    catch(error){
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        toast.error(message)
+        
+    }
 }
