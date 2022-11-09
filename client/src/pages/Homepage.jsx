@@ -1,5 +1,7 @@
 import React from "react";
 import {Link} from 'react-router-dom'
+import { ShowOnLogin, ShowOnLogout } from "../components/protect/hiddenLinks";
+
 const Homepage = () => {
   return (
     <>
@@ -28,21 +30,27 @@ const Homepage = () => {
             <span class="fs-4">Interview Management</span>
           </a>
             <div className="d-flex align-items-center">
+            <ShowOnLogout >
             <Link to='/login'> 
             <button class="btn btn-primary btn-md mx-2 my-2" type="button">
               Login
             </button>
             </Link>
+            </ShowOnLogout>
+            <ShowOnLogout >
             <Link to='/register'> 
             <button class="btn btn-dark btn-md mx-2 my-2" type="button">
               Sign Up
             </button>
             </Link>
+            </ShowOnLogout>
+            <ShowOnLogin>
             <Link to='/dashboard'> 
             <button class="btn btn-danger btn-md mx-2 my-2" type="button">
               Dashboard
             </button>
             </Link>
+            </ShowOnLogin>
             </div>
         </header>
 
