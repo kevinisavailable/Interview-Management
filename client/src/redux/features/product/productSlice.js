@@ -1,5 +1,5 @@
 import { createSlice , createAsyncThunk } from '@reduxjs/toolkit'
-import { createProduct, getProductsUser } from './productService';
+import { createProduct, deleteProduct, getProductsUser } from './productService';
 import {toast} from 'react-hot-toast'
 const initialState = {
     product: null,
@@ -29,6 +29,20 @@ export const getProducts = createAsyncThunk(
     async(_ , thunkAPI)=>{
         try{
             return await getProductsUser()
+        }
+        catch(error){
+            const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
+            console.log(message)
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+export const deleteSingleProduct = createAsyncThunk(
+    "products/delteproduct", 
+    async(id, thunkAPI)=>{
+        try{
+            return await deleteProduct(id)
         }
         catch(error){
             const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString() 
@@ -78,6 +92,23 @@ const productSlice = createSlice({
         state.products = action.payload
     })
     .addCase(getProducts.rejected , (state , action)=>{
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        toast.error(action.payload)
+    })
+
+    .addCase(deleteSingleProduct.pending , (state)=>{
+        state.isLoading = true
+    })
+    .addCase(deleteSingleProduct.fulfilled , (state , action)=>{
+        state.isLoading = false
+        state.isSuccess = true
+        state.isError = false
+        // console.log(action.payload)
+        toast.success("Product has been deleted")
+    })
+    .addCase(deleteSingleProduct.rejected , (state , action)=>{
         state.isLoading = false
         state.isError = true
         state.message = action.payload
