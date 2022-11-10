@@ -6,6 +6,11 @@ import Search from '../Search/Search'
 import { useState } from 'react'
 import { FILTER_PRODUCTS, selectFilteredProduct } from '../../redux/features/product/filterSlice'
 import {useDispatch , useSelector} from 'react-redux'
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import toast from 'react-hot-toast'
+import { deleteSingleProduct, getProducts } from '../../redux/features/product/productSlice'
+
 
 const ProductList = ({products}) => {
     const [search , setSearch]= useState("")
@@ -19,6 +24,26 @@ const ProductList = ({products}) => {
             return shortenedText
         }
         return text
+    }
+    const deleteProductRedux = async(id)=>{
+      await dispatch(deleteSingleProduct(id))
+      await dispatch(getProducts())
+    }
+    const confirmDelete = (id)=>{
+      confirmAlert({
+        title: 'Delete Product?',
+        message: 'Are you sure to delete this product?',
+        buttons: [
+          {
+            label: 'Delete',
+            onClick: () => deleteProductRedux(id)
+          },
+          {
+            label: 'Cancel',
+            onClick: () => toast.success("Product Not deleted")
+          }
+        ]
+      });
     }
 
     useEffect(() => {
@@ -80,7 +105,7 @@ const ProductList = ({products}) => {
                     <BsFillEyeFill size={25}/>
                     </span>
                     <span className='px-1'>
-                    <AiOutlineDelete size={25}/>
+                    <AiOutlineDelete size={25} onClick={()=>confirmDelete(_id)} style={{cursor:"pointer"}}/>
                     </span>
                 </td>
                 </tr>
