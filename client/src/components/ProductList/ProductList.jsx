@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {GrAdd} from 'react-icons/gr'
 import {BsFillEyeFill} from 'react-icons/bs'
 import {AiOutlineDelete} from 'react-icons/ai'
 import Search from '../Search/Search'
 import { useState } from 'react'
-
+import { FILTER_PRODUCTS, selectFilteredProduct } from '../../redux/features/product/filterSlice'
+import {useDispatch , useSelector} from 'react-redux'
 
 const ProductList = ({products}) => {
     const [search , setSearch]= useState("")
+    const filteredProducts = useSelector(selectFilteredProduct)
+    const dispatch = useDispatch()
+    
+    
     const shortenText = (text,n)=>{
         if(text.length > n){
             const shortenedText = text.substring(0 ,n).concat("...")
@@ -15,6 +20,15 @@ const ProductList = ({products}) => {
         }
         return text
     }
+
+    useEffect(() => {
+      dispatch(FILTER_PRODUCTS({
+        products,search
+      }))
+    
+      
+    }, [search , products ,dispatch])
+
 
   return (
     <>
@@ -45,7 +59,7 @@ const ProductList = ({products}) => {
   </thead>
   <tbody>
     {
-        products.map((product , index)=>{
+        filteredProducts.map((product , index)=>{
             const{_id , name , category , price ,quantity} = product
             return(
                 <>
