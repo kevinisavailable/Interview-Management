@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import ProductDetails from './components/Productdetails/ProductDetails';
 import Product from './pages/SingleProduct/Product';
 import NewReset from './pages/auth/NewReset';
+import Profile from './pages/Profile/Profile';
 axios.defaults.withCredentials = true
 
 function App() {
@@ -44,6 +45,7 @@ useEffect(() => {
       <Route path='/add-product' element={<AddProduct/>} />
       <Route path='/dashboard' element={<Dashboard/>} />
       <Route path='/product/:id' element={<Product/>} />
+      <Route path='/profile' element={<Profile/>} />
     </Routes>
     </BrowserRouter>
   );
