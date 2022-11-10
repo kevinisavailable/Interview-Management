@@ -2,10 +2,14 @@ import React from 'react'
 import {GrAdd} from 'react-icons/gr'
 import {BsFillEyeFill} from 'react-icons/bs'
 import {AiOutlineDelete} from 'react-icons/ai'
-const ProductList = ({products}) => {
+import Search from '../Search/Search'
+import { useState } from 'react'
 
+
+const ProductList = ({products}) => {
+    const [search , setSearch]= useState("")
     const shortenText = (text,n)=>{
-        if(text.lenth > n){
+        if(text.length > n){
             const shortenedText = text.substring(0 ,n).concat("...")
             return shortenedText
         }
@@ -13,6 +17,16 @@ const ProductList = ({products}) => {
     }
 
   return (
+    <>
+      <div className='d-flex flex-row justify-content-between'>
+      <div className="pagetitle">
+          <h1>Dashboard</h1>
+        </div>
+        <div>
+        <Search value={search} onChange={(e)=>setSearch(e.target.value)}/>
+        </div>
+      </div>
+    
     <div>
         {products.length === 0 ? <p>No Product Found</p> :(
 
@@ -64,6 +78,8 @@ const ProductList = ({products}) => {
 </table>
 )}
     </div>
+   
+    </>
   )
 }
 
