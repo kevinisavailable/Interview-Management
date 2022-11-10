@@ -10,6 +10,9 @@ import { getLoginStatus } from './services/authService';
 import { selectIsLoggedIn, SET_LOGIN } from './redux/features/auth/authSlice';
 import AddProduct from './pages/AddProduct/AddProduct';
 import Dashboard from './pages/Dashboard';
+import ProductDetails from './components/Productdetails/ProductDetails';
+import Product from './pages/SingleProduct/Product';
+import NewReset from './pages/auth/NewReset';
 axios.defaults.withCredentials = true
 
 function App() {
@@ -36,9 +39,11 @@ useEffect(() => {
       <Route path='/login' element={<Login />}/>
       <Route path='/register' element={<Register />}/>
       <Route path='/forgotpassword' element={<Forgot />}/>
-      <Route path='/resetpassword/:resetToken' element={<Reset />}/>
+      {/* <Route path='/resetpassword/:resetToken' element={<Reset />}/> */}
+      <Route path='/resetpassword/:resetToken' element={<NewReset />}/>
       <Route path='/add-product' element={<AddProduct/>} />
       <Route path='/dashboard' element={<Dashboard/>} />
+      <Route path='/product/:id' element={<Product/>} />
     </Routes>
     </BrowserRouter>
   );
