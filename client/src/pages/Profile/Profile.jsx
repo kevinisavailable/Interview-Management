@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Layout from '../../components/Layout/Layout'
-import useRedirectLogout from '../../customHook/useRedirectLogout'
+import ProfileDetails from '../../components/ProfileDetails'
 import { SAVE_USER, SET_NAME } from '../../redux/features/auth/authSlice'
 import { getUserProfile } from '../../services/authService'
 
@@ -26,7 +26,7 @@ const Profile = () => {
     
   return (
     <Layout>
-    <div>Profile</div>
+    <ProfileDetails profile={profile}/>
     </Layout>
   )
 }
