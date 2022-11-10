@@ -1,6 +1,37 @@
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../redux/features/auth/authSlice'
+
 
 
 const ProfileDetails = ({profile}) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const user =  useSelector(selectUser)
+    console.log(user)
+    
+    const initialState = {
+        name:user?.name,
+        email:user?.email,
+        description:user?.description, 
+        phoneNo:user?.phoneNo,
+        cv:user?.cv
+    }
+    console.log(initialState)
+    const [userProfile , setUserProfile] = useState(initialState)
+    const [profileImage ,setProfileImage] = useState("")
+    const handleInputChange = (e)=>{
+        const {name , value} = e.target
+        setUserProfile({...userProfile , [name]:value})
+    }
+
+    const handleImageChange = (e)=>{
+        setProfileImage(e.target.files[0])
+    }
+
+    const saveProfile = (e)=>{
+        e.preventDefault()
+        
+    }
   return (
     <>
          <div class="col-xl-8">
@@ -31,13 +62,13 @@ const ProfileDetails = ({profile}) => {
                 <div className="col-xl-4">
                 <div className="card">
                  <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                 <img src={profile.cv} alt="Profile" className="rounded-circle" />
+                 <img src={profile?.cv} alt="Profile" className="rounded-circle" />
                 </div>
                 </div>
                 </div>
                 </div>
                   <h5 class="card-title">About</h5>
-                  <p class="small fst-italic">{profile.description}</p>
+                  <p class="small fst-italic">{profile?.description}</p>
 
                   <h5 class="card-title">Profile Details</h5>
 
@@ -45,7 +76,7 @@ const ProfileDetails = ({profile}) => {
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                    <div class="col-lg-9 col-md-8">{profile.name}</div>
+                    <div class="col-lg-9 col-md-8">{profile?.name}</div>
                   </div>
 
                   <div class="row">
@@ -70,12 +101,12 @@ const ProfileDetails = ({profile}) => {
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                    <div class="col-lg-9 col-md-8">{profile.phoneNo}</div>
+                    <div class="col-lg-9 col-md-8">{profile?.phoneNo}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">{profile.email}</div>
+                    <div class="col-lg-9 col-md-8">{profile?.email}</div>
                   </div>
 
                </div> 
@@ -83,7 +114,7 @@ const ProfileDetails = ({profile}) => {
                  <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                  
-                  <form>
+                  <form onSubmit={saveProfile}>
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
@@ -98,13 +129,14 @@ const ProfileDetails = ({profile}) => {
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" />
+                        <input  type="text" class="form-control" id="fullName" name="name" value={userProfile?.name} onChange={handleInputChange}/>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                      <label  class="col-md-4 col-lg-3 col-form-label">Description</label>
                       <div class="col-md-8 col-lg-9">
+                      <input  type="text" class="form-control" id="fullName" name="description" value={userProfile?.description} onChange={handleInputChange}/>
                       </div>
                     </div>
 
@@ -139,14 +171,15 @@ const ProfileDetails = ({profile}) => {
                     <div class="row mb-3">
                       <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" />
+                        <input name="phoneNo" type="text" class="form-control" id="Phone" value={userProfile?.phoneNo} onChange={handleInputChange} />
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" />
+                        <input name="email" type="email" class="form-control" id="Email" value={userProfile?.email} onChange={handleInputChange} disabled/>
+                        <p>Email Cannot be Changed</p>
                       </div>
                     </div>
 
