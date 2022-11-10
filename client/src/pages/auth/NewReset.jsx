@@ -50,16 +50,16 @@ const NewReset = () => {
     <>
     <div class="background">
     </div>
-    <form onSubmit={reset}>
+    <form onSubmit={reset} className='form1'>
         <h3>Reset Password</h3>
 
-        <label for="password">New Password</label>
-        <input type="password" placeholder="Password" id="password"  name="password" onChange={handleInputChange} value={password} required/>
+        <label for="password" className='label1'>New Password</label>
+        <input type="password" placeholder="Password" className='input1' id="password"  name="password" onChange={handleInputChange} value={password} required/>
 
-        <label for="password">Confirm New Password</label>
-        <input type="password" placeholder="Password" id="password" name="passwordCheck" onChange={handleInputChange} value={passwordCheck} required/>
+        <label for="password" className='label1'>Confirm New Password</label>
+        <input type="password" placeholder="Password" className='input1' id="password" name="passwordCheck" onChange={handleInputChange} value={passwordCheck} required/>
 
-        <button>Reset Password</button>
+        <button className='btn1'>Reset Password</button>
     </form>
     </>
   )
