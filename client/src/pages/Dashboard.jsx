@@ -20,7 +20,7 @@ const Dashboard = () => {
     if(isError){
       console.log(message)
     }
-  }, [dispatch , isLoading ,message , isError])
+  }, [dispatch])
   
   return (
     <div>
