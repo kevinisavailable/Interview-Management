@@ -1,14 +1,16 @@
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../redux/features/auth/authSlice'
-
+import { useNavigate } from 'react-router-dom'
+import { updateUser } from '../services/authService'
 
 
 const ProfileDetails = ({profile}) => {
     const [isLoading, setIsLoading] = useState(false)
     const user =  useSelector(selectUser)
     console.log(user)
-    
+    const navigate = useNavigate()
     const initialState = {
         name:user?.name,
         email:user?.email,
@@ -28,10 +30,34 @@ const ProfileDetails = ({profile}) => {
         setProfileImage(e.target.files[0])
     }
 
-    const saveProfile = (e)=>{
+    const saveProfile = async(e)=>{
         e.preventDefault()
+        setIsLoading(true);
+    try {
+
+
+        const formData = {
+          name: userProfile.name,
+          phone: userProfile.phone,
+          bio: userProfile.bio,
+          photo: profileImage ? "imageURL" : profile.photo,
+        };
+
+        const data = await updateUser(formData);
+        console.log(data);
+        toast.success("User updated");
+        navigate("/dashboard");
+        setIsLoading(false);
+      
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      toast.error(error.message);
+    }
         
     }
+
+    
   return (
     <>
          <div class="col-xl-8">
@@ -115,7 +141,7 @@ const ProfileDetails = ({profile}) => {
 
                  
                   <form onSubmit={saveProfile}>
-                    <div class="row mb-3">
+                    {/* <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
                         <img src="assets/img/profile-img.jpg" alt="Profile"/>
@@ -124,7 +150,7 @@ const ProfileDetails = ({profile}) => {
                           <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>

@@ -27,7 +27,7 @@ const Homepage = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            <span className="fs-4">Interview Management</span>
+            <span className="fs-4">Inventory Management</span>
           </a>
             <div className="d-flex align-items-center">
             <ShowOnLogout >
@@ -56,10 +56,10 @@ const Homepage = () => {
 
         <div className="p-5 mb-4 bg-light rounded-3">
           <div className="container-fluid py-5">
-            <h1 className="display-5 fw-bold">Manage your Interviews easliy</h1>
+            <h1 className="display-5 fw-bold">Manage your Inventory easliy</h1>
             <p className="col-md-8 fs-4">
-              One step solution to manage your interviews.
-              Easily automate from filtering candidates to rejecting applications
+              Add products , update products , view products and delete products
+             
             </p>
             
           </div>

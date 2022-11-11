@@ -25,7 +25,7 @@ const Dashboard = () => {
   return (
     <div>
     <Layout>
-        <ProductSummary />
+        {/* <ProductSummary /> */}
         <Card>
         <ProductList products = {products}/>
         </Card>

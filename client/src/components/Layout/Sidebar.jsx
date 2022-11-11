@@ -32,14 +32,14 @@ const Sidebar = () => {
             </a>
             </Link>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link to='view-candidates'>
             <a className='nav-link collapsed'>
             <i class="bi bi-people-fill"></i>
               <span>View Candidates</span>
             </a>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </aside>
     </>

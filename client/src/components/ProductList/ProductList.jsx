@@ -99,12 +99,6 @@ const ProductList = ({products}) => {
                 </td>
                 <td className='d-flex align-items-center justify-content-around'>
                     <span className='px-1'>
-                    <GrAdd  size={25}/>
-                    </span>
-                    <span className='px-1'>
-                    <BsFillEyeFill size={25}/>
-                    </span>
-                    <span className='px-1'>
                     <AiOutlineDelete size={25} onClick={()=>confirmDelete(_id)} style={{cursor:"pointer"}}/>
                     </span>
                 </td>
