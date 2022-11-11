@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const  mongoose = require('mongoose')
 const dotenv = require('dotenv')
-const PORT = process.env.PORT || 3000
+const PORT = 5000
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const userRoutes = require('./routes/userRoutes')
@@ -17,7 +17,10 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({extended:false}))
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+    origin:["http://localhost:3000"],
+    credentials:true
+}))
 app.use('/uploads' , express.static(path.join(__dirname,"uploads")))
 
 
@@ -32,6 +35,6 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.use(errorHandler)
 
-app.listen(3000 , (req ,res)=>{
+app.listen(5000 , (req ,res)=>{
     console.log(`Server started and is running on PORT ${PORT}`)
 })
